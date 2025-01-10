@@ -1,6 +1,3 @@
-
-# API_SP
-
 # API Utilisateurs et Abonnements
 
 Cette application propose une API simple pour gérer deux entités : **Utilisateurs** et **Abonnements**. L'API est développée avec **FastAPI**, utilise **SQLite** comme base de données, et peut être exécutée dans un conteneur Docker.
@@ -8,16 +5,18 @@ Cette application propose une API simple pour gérer deux entités : **Utilisate
 ## 📁 Structure des fichiers
 
 ```
-├── main.py  # Point d'entrée de l'application
-├── crud.py  # Opérations CRUD sur les bases de données
-├── models.py  # Modèles SQLAlchemy représentant les tables de la base de données
-├── schemas.py  # Schémas Pydantic pour la validation des données d'entrée et de sortie
-├── database.py  # Configuration de la base de données SQLite
-├── db.sqlite3  # Base de données SQLite
-├── Dockerfile  # Configuration pour le conteneur Docker
-├── requirements.txt  # Liste des dépendances
-└── README.md  # Documentation du projet
+.
+├── main.py         # Point d'entrée de l'application (API FastAPI)
+├── crud.py         # Fonctions CRUD
+├── models.py       # Modèles SQLAlchemy
+├── database.py     # Configuration de la base de données
+├── db.sqlite3      # Base de données SQLite
+├── Dockerfile      # Configuration pour le conteneur Docker
+├── requirements.txt # Dépendances Python
+└── README.md       # Documentation du projet
 ```
+
+---
 
 ## 🚀 Lancer l'application
 
@@ -29,35 +28,91 @@ Cette application propose une API simple pour gérer deux entités : **Utilisate
 ---
 
 ### Étape 1 : Installation des dépendances
-
 Installez les bibliothèques requises :
 ```bash
 pip install -r requirements.txt
 ```
 
-### Fonctionnalités
-
-### Fonctionnalités
-
-- CRUD complet sur les utilisateurs et les abonnements (création, lecture, mise à jour, suppression)
-- Validation des données à l'aide de Pydantic
-- Documentation interactive générée automatiquement avec Swagger UI et ReDoc
-- Gestion des erreurs personnalisée pour fournir des réponses claires et informatives
 ---
-### Endpoints
-```
-GET /utilisateurs: Récupérer tous les utilisateurs
-GET /utilisateurs/{id}: Récupérer un utilisateur spécifique
-POST /utilisateurs: Créer un nouvel utilisateur
-PUT /utilisateurs/{id}: Mettre à jour un utilisateur
-DELETE /utilisateurs/{id}: Supprimer un utilisateur
-... (endpoints similaires pour les abonnements)
-```
-### Développement
 
-Structure claire et conventionnelle pour faciliter la maintenance
-Tests unitaires pour assurer la qualité du code
-Linting pour garantir un code propre et cohérent
+### Étape 2 : Lancer l'application localement
+Exécutez le fichier `main.py` :
+```bash
+uvicorn main:app --reload
+```
 
-### Licence
-Ce projet est sous licence MIT.
+L'API sera disponible à l'adresse [http://127.0.0.1:8000](http://127.0.0.1:8000).
+
+---
+
+### Étape 3 : Tester l'API
+Vous pouvez accéder à la documentation interactive de l'API via :
+- Swagger UI : [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- ReDoc : [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
+
+---
+
+## 🐳 Utiliser Docker
+
+### Étape 1 : Construire l'image Docker
+Construisez l'image à partir du fichier `Dockerfile` :
+```bash
+docker build -t api-utilisateurs-abonnements .
+```
+
+---
+
+### Étape 2 : Lancer le conteneur
+Exécutez le conteneur :
+```bash
+docker run -d -p 8000:8000 api-utilisateurs-abonnements
+```
+
+L'API sera disponible à l'adresse [http://127.0.0.1:8000](http://127.0.0.1:8000).
+
+---
+
+## 🛠 Fonctionnalités
+
+### 1. **Endpoints disponibles**
+| Endpoint             | Méthode | Description                  |
+|----------------------|---------|------------------------------|
+| `/utilisateurs`      | GET     | Récupérer tous les utilisateurs |
+| `/abonnements`       | GET     | Récupérer tous les abonnements |
+
+### 2. **Modèles**
+
+#### Utilisateur
+| Champ    | Type   | Description             |
+|----------|--------|-------------------------|
+| `id`     | int    | Identifiant unique      |
+| `nom`    | string | Nom de l'utilisateur    |
+| `email`  | string | Email unique            |
+
+#### Abonnement
+| Champ           | Type   | Description                    |
+|------------------|--------|--------------------------------|
+| `id`            | int    | Identifiant unique             |
+| `utilisateur_id` | int    | Identifiant de l'utilisateur   |
+| `service`        | string | Nom du service d'abonnement    |
+| `prix`          | float  | Prix de l'abonnement           |
+
+---
+
+## 🔧 Développement
+
+### Structure du code
+
+1. **`main.py`** : Contient la configuration de l'application et les routes.
+2. **`models.py`** : Définit les modèles SQLAlchemy pour la base de données.
+3. **`crud.py`** : Contient les fonctions pour interagir avec la base de données.
+4. **`database.py`** : Configure la connexion à la base de données SQLite.
+
+---
+
+## 📄 Licence
+
+Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus d'informations.
+
+---
+
