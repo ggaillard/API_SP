@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-from . import models, crud
+import models
+import crud
 from .database import SessionLocal, engine
 
 # Créer les tables si elles n'existent pas
