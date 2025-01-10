@@ -1,6 +1,11 @@
 # API_SP
 
+Liste des dépendances Python nécessaires :
 
+Copier le code
+fastapi
+uvicorn
+sqlalchemy
 
 .
 ├── app/
