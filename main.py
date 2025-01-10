@@ -1,29 +1,36 @@
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, HTTPException, Depends, Request
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 import models
 import crud
-from database import SessionLocal, engine, Base
+from database import SessionLocal, engine
+from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
 
 def test_connection():
     try:
-        # Essayer d'ouvrir une session
-        db = SessionLocal()
-        db.execute("SELECT 1")  # Test de la connexion
-        print("Connexion réussie à la base de données.")
-        db.close()
+        # Try to open a connection
+        with engine.connect() as connection:
+            connection.execute(text("SELECT 1"))  # Test the connection
+            print("Successfully connected to the database.")
     except OperationalError as e:
-        print(f"Erreur de connexion : {e}")
+        print(f"Connection error: {e}")
 
 if __name__ == "__main__":
     test_connection()
-    
-# Créer les tables si elles n'existent pas
-models.Base.metadata.create_all(bind=engine)
+    # Create tables if they do not exist
+    models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# Dépendance pour la session de la base de données
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=500,
+        content={"message": f"Internal Server Error: {exc}"}
+    )
+
+# Dependency for the database session
 def get_db():
     db = SessionLocal()
     try:
@@ -31,29 +38,30 @@ def get_db():
     finally:
         db.close()
 
-# Jeu d'essai
+# Seed data
 @app.on_event("startup")
 def startup_event():
     db = SessionLocal()
-    if not db.query(models.Utilisateur).first():  # Vérifie si la table est vide
-        utilisateurs = [
-            models.Utilisateur(nom="John Doe", email="johndoe@example.com"),
-            models.Utilisateur(nom="Jane Smith", email="janesmith@example.com"),
-            models.Utilisateur(nom="Alice Johnson", email="alicejohnson@example.com"),
-        ]
-        db.add_all(utilisateurs)
-        db.commit()
-    db.close()
+    try:
+        if not db.query(models.Utilisateur).first():  # Check if the table is empty
+            utilisateurs = [
+                models.Utilisateur(nom="John Doe", email="johndoe@example.com"),
+                models.Utilisateur(nom="Jane Smith", email="janesmith@example.com"),
+                models.Utilisateur(nom="Alice Johnson", email="alicejohnson@example.com"),
+            ]
+            db.add_all(utilisateurs)
+            db.commit()
+    except Exception as e:
+        print(f"Error seeding data: {e}")
+    finally:
+        db.close()
 
-# Endpoint pour récupérer tous les utilisateurs
-@app.get("/utilisateurs")
-def get_utilisateurs(db: Session = Depends(get_db)):
-    return db.query(models.Utilisateur).all()
-
+# Endpoint to get all users
 @app.get("/utilisateurs")
 def read_utilisateurs(db: Session = Depends(get_db)):
     return crud.get_utilisateurs(db)
 
+# Endpoint to get all subscriptions
 @app.get("/abonnements")
 def read_abonnements(db: Session = Depends(get_db)):
     return crud.get_abonnements(db)
