@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 import models
 import crud
-from database import SessionLocal, engine
+from database import SessionLocal, engine, Base
 from sqlalchemy.exc import OperationalError
 
 def test_connection():
@@ -30,6 +30,25 @@ def get_db():
         yield db
     finally:
         db.close()
+
+# Jeu d'essai
+@app.on_event("startup")
+def startup_event():
+    db = SessionLocal()
+    if not db.query(models.Utilisateur).first():  # Vérifie si la table est vide
+        utilisateurs = [
+            models.Utilisateur(nom="John Doe", email="johndoe@example.com"),
+            models.Utilisateur(nom="Jane Smith", email="janesmith@example.com"),
+            models.Utilisateur(nom="Alice Johnson", email="alicejohnson@example.com"),
+        ]
+        db.add_all(utilisateurs)
+        db.commit()
+    db.close()
+
+# Endpoint pour récupérer tous les utilisateurs
+@app.get("/utilisateurs")
+def get_utilisateurs(db: Session = Depends(get_db)):
+    return db.query(models.Utilisateur).all()
 
 @app.get("/utilisateurs")
 def read_utilisateurs(db: Session = Depends(get_db)):
