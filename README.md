@@ -1,3 +1,4 @@
+
 # API_SP
 
 # API Utilisateurs et Abonnements
@@ -6,6 +7,7 @@ Cette application propose une API simple pour gérer deux entités : **Utilisate
 
 ## 📁 Structure des fichiers
 
+```
 ├── main.py  # Point d'entrée de l'application
 ├── crud.py  # Opérations CRUD sur les bases de données
 ├── models.py  # Modèles SQLAlchemy représentant les tables de la base de données
@@ -15,7 +17,7 @@ Cette application propose une API simple pour gérer deux entités : **Utilisate
 ├── Dockerfile  # Configuration pour le conteneur Docker
 ├── requirements.txt  # Liste des dépendances
 └── README.md  # Documentation du projet
-
+```
 
 ## 🚀 Lancer l'application
 
@@ -30,23 +32,25 @@ Cette application propose une API simple pour gérer deux entités : **Utilisate
 Installez les bibliothèques requises :
 ```bash
 pip install -r requirements.txt
+```
+
+---
 
 ### Fonctionnalités
-
 CRUD complet sur les utilisateurs et les abonnements (création, lecture, mise à jour, suppression)
 Validation des données à l'aide de Pydantic
 Documentation interactive générée automatiquement avec Swagger UI et ReDoc
 Gestion des erreurs personnalisée pour fournir des réponses claires et informatives
-
+---
 ### Endpoints
-
+```
 GET /utilisateurs: Récupérer tous les utilisateurs
 GET /utilisateurs/{id}: Récupérer un utilisateur spécifique
 POST /utilisateurs: Créer un nouvel utilisateur
 PUT /utilisateurs/{id}: Mettre à jour un utilisateur
 DELETE /utilisateurs/{id}: Supprimer un utilisateur
 ... (endpoints similaires pour les abonnements)
-
+```
 ### Développement
 
 Structure claire et conventionnelle pour faciliter la maintenance
@@ -55,5 +59,3 @@ Linting pour garantir un code propre et cohérent
 
 ### Licence
 Ce projet est sous licence MIT.
-
-
