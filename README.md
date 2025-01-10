@@ -29,18 +29,20 @@ Cette application propose une API simple pour gérer deux entités : **Utilisate
 ---
 
 ### Étape 1 : Installation des dépendances
+
 Installez les bibliothèques requises :
 ```bash
 pip install -r requirements.txt
 ```
 
----
+### Fonctionnalités
 
 ### Fonctionnalités
-CRUD complet sur les utilisateurs et les abonnements (création, lecture, mise à jour, suppression)
-Validation des données à l'aide de Pydantic
-Documentation interactive générée automatiquement avec Swagger UI et ReDoc
-Gestion des erreurs personnalisée pour fournir des réponses claires et informatives
+
+- CRUD complet sur les utilisateurs et les abonnements (création, lecture, mise à jour, suppression)
+- Validation des données à l'aide de Pydantic
+- Documentation interactive générée automatiquement avec Swagger UI et ReDoc
+- Gestion des erreurs personnalisée pour fournir des réponses claires et informatives
 ---
 ### Endpoints
 ```
