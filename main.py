@@ -1,40 +1,25 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
-from typing import List
+from fastapi import FastAPI, Depends
+from sqlalchemy.orm import Session
+from . import models, crud
+from .database import SessionLocal, engine
+
+# Créer les tables si elles n'existent pas
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 
-# Données en mémoire (mock)
-utilisateurs = [
-    {"id": 1, "nom": "Alice", "email": "alice@example.com"},
-    {"id": 2, "nom": "Bob", "email": "bob@example.com"}
-]
+# Dépendance pour la session de la base de données
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
 
-abonnements = [
-    {"id": 1, "utilisateur_id": 1, "service": "Netflix", "prix": 12.99},
-    {"id": 2, "utilisateur_id": 2, "service": "Spotify", "prix": 9.99}
-]
+@app.get("/utilisateurs")
+def read_utilisateurs(db: Session = Depends(get_db)):
+    return crud.get_utilisateurs(db)
 
-# Modèles Pydantic
-class Utilisateur(BaseModel):
-    id: int
-    nom: str
-    email: str
-
-class Abonnement(BaseModel):
-    id: int
-    utilisateur_id: int
-    service: str
-    prix: float
-
-@app.get("/utilisateurs", response_model=List[Utilisateur])
-def get_utilisateurs():
-    return utilisateurs
-
-@app.get("/abonnements", response_model=List[Abonnement])
-def get_abonnements():
-    return abonnements
-
-@app.get("/docs", include_in_schema=False)
-def get_documentation():
-    return {"message": "Accédez à la documentation interactive via /docs"}
+@app.get("/abonnements")
+def read_abonnements(db: Session = Depends(get_db)):
+    return crud.get_abonnements(db)
