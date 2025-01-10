@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 import models
 import crud
-from .database import SessionLocal, engine
+from database import SessionLocal, engine
 
 # Créer les tables si elles n'existent pas
 models.Base.metadata.create_all(bind=engine)
