@@ -16,11 +16,6 @@ def test_connection():
     except OperationalError as e:
         print(f"Connection error: {e}")
 
-if __name__ == "__main__":
-    test_connection()
-    # Create tables if they do not exist
-    models.Base.metadata.create_all(bind=engine)
-
 app = FastAPI()
 
 @app.exception_handler(Exception)
@@ -41,6 +36,11 @@ def get_db():
 # Seed data
 @app.on_event("startup")
 def startup_event():
+    # Create tables if they do not exist
+    print("Creating tables if they do not exist...")
+    models.Base.metadata.create_all(bind=engine)
+    print("Tables created successfully.")
+    
     db = SessionLocal()
     try:
         if not db.query(models.Utilisateur).first():  # Check if the table is empty
