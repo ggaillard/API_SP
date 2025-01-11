@@ -67,7 +67,7 @@ Vous pouvez accéder à la documentation interactive de l'API via le navigateur 
 - Cliquez sur l'icône `Database` dans la barre latérale de Visual Studio Code (proposée par l'extension SQLite).
 - Sélectionnez `New Connection`.
 - Choisissez SQLite comme type de serveur.
-- Dans le champ `Database Path`, entrez le chemin vers le fichier db.sqlite3 du projet (par défaut, ce fichier est situé à la racine du projet).
+- Dans le champ `Database Path`, entrez le chemin vers le fichier `db.sqlite3` du projet (par défaut, ce fichier est situé à la racine du projet).
 - Cliquez sur `Save` puis sur `Connect`.
 
  ## 3 : Explorer la base de données
