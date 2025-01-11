@@ -114,6 +114,7 @@ Vous pouvez accéder à la documentation interactive de l'API via le navigateur 
 5. **`packages.txt`** : Liste des dépendances système.
 6. **`requirements.txt`** : Liste des dépendances Python.
 7. **`devcontainer.json `**: Automatisation de l'installation des dépendances lors de la création du container.
+
 ---
 
 ## 📄 Licence
