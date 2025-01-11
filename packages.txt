@@ -1,0 +1,7 @@
+# Usage : Ce fichier est utilisé pour lister les dépendances système ou les packages spécifiques au système d'exploitation.
+# appel dans le fichier devcontainer.json
+
+sqlite3             # Pour interagir avec les bases SQLite
+build-essential     # Outils de compilation pour installer des packages nécessitant un build
+curl                # Outil pour tester les requêtes HTTP (optionnel)
+git                 # Gestionnaire de versions (si besoin)

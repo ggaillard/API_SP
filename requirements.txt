@@ -1,3 +1,8 @@
-fastapi
-uvicorn
-sqlalchemy
+# Usage : Ce fichier est utilisé pour lister les dépendances Pytho
+# appel dans le fichier devcontainer.json
+
+SQLAlchemy          # ORM pour interagir avec SQLite ou d'autres bases de données
+pydantic            # Validation des données (optionnel si utilisé)
+fastapi             # Si votre projet utilise une API (optionnel)
+uvicorn             # Serveur pour exécuter une API FastAPI (optionnel)
+pytest              # Pour les tests (optionnel)
