@@ -18,6 +18,11 @@
   },
   "updateContentCommand": "[ -f packages.txt ] && sudo apt update && xargs -a packages.txt sudo apt install -y; [ -f requirements.txt ] && pip3 install -r requirements.txt",
   "postCreateCommand": "sudo apt update && sudo apt install -y sqlite3",
-  "portsAttributes": {},
-  "forwardPorts": []
+  "postStartCommand": "uvicorn main:app --host 0.0.0.0 --port 8000 --reload",
+  "portsAttributes": {
+    "8000": {
+      "label": "Application"
+    }
+  },
+  "forwardPorts": [8000]
 }

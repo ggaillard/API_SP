@@ -18,6 +18,10 @@ def test_connection():
 
 app = FastAPI()
 
+@app.get("/")
+def read_root():
+    return {"message": "Bienvenue sur votre API FastAPI !"}
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
     return JSONResponse(
