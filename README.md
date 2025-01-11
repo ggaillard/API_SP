@@ -111,7 +111,9 @@ Vous pouvez accéder à la documentation interactive de l'API via le navigateur 
 2. **`models.py`** : Définit les modèles SQLAlchemy pour la base de données.
 3. **`crud.py`** : Contient les fonctions pour interagir avec la base de données.
 4. **`database.py`** : Configure la connexion à la base de données SQLite.
-
+5. **`packages.txt`** : Liste des dépendances système.
+6. **`requirements.txt`** : Liste des dépendances Python.
+7. **`devcontainer.json `**: Automatisation de l'installation des dépendances lors de la création du container.
 ---
 
 ## 📄 Licence
