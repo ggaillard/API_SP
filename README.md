@@ -20,17 +20,36 @@ Ouvrir Codespaces
 
 ```
 .
-├──.devcontainer/   # Configuration pour Codespaces
-├── main.py         # Point d'entrée de l'application (API FastAPI)
-├── crud.py         # Fonctions CRUD
-├── models.py       # Modèles SQLAlchemy
-├── database.py     # Configuration de la base de données
-├── db.sqlite3      # Base de données SQLite
-├── Dockerfile      # Configuration pour le conteneur Docker
-├── requirements.txt # Dépendances Python
-└── README.md       # Documentation du projet
+├── app/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── crud.py
+│   ├── models.py
+│   ├── database.py
+│   ├── schemas.py
+│   ├── routers/
+│   │   ├── __init__.py
+│   │   ├── utilisateurs.py
+│   │   └── abonnements.py
+├── db.sqlite3
+├── Dockerfile
+├── requirements.txt
+├── README.md
+└── .devcontainer/
+    ├── devcontainer.json
 ```
 
+Explications
+- app/ : Dossier principal contenant le code de l'application.
+- __init__.py : Fichier pour indiquer que ce dossier est un module Python.
+- main.py : Point d'entrée de l'application FastAPI.
+- crud.py : Fonctions CRUD pour interagir avec la base de données.
+- models.py : Définitions des modèles SQLAlchemy.
+- database.py : Configuration de la base de données.
+- schemas.py : Définitions des schémas Pydantic pour la validation des données.
+- routers/ : Dossier contenant les routes de l'application.
+    - utilisateurs.py : Routes pour les utilisateurs.
+    - abonnements.py : Routes pour les abonnements
 ---
 
 ## Étape 2 :🚀 Lancer l'application
