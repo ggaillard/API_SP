@@ -6,6 +6,7 @@ import crud
 from database import SessionLocal, engine
 from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
+from fastapi import Lifespan
 
 def test_connection():
     try:
@@ -17,10 +18,6 @@ def test_connection():
         print(f"Connection error: {e}")
 
 app = FastAPI()
-
-@app.get("/")
-def read_root():
-    return {"message": "Bienvenue sur votre API FastAPI !"}
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
@@ -37,9 +34,9 @@ def get_db():
     finally:
         db.close()
 
-# Seed data
+# Lifespan event handler
 @app.on_event("startup")
-def startup_event():
+async def startup_event():
     # Create tables if they do not exist
     print("Creating tables if they do not exist...")
     models.Base.metadata.create_all(bind=engine)
