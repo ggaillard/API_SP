@@ -5,6 +5,7 @@ import models
 from database import SessionLocal, engine
 from sqlalchemy import text
 from sqlalchemy.exc import OperationalError
+import os
 
 # Fonction pour tester la connexion à la base de données
 def test_connection():
@@ -26,14 +27,14 @@ def startup():
     # Ajouter des données initiales si nécessaire
     db = SessionLocal()
     try:
-        if not db.query(models.Utilisateur).first():  # Vérifier si la table est vide
-            utilisateurs = [
-                models.Utilisateur(nom="John Doe", email="johndoe@example.com"),
-                models.Utilisateur(nom="Jane Smith", email="janesmith@example.com"),
-                models.Utilisateur(nom="Alice Johnson", email="alicejohnson@example.com"),
-            ]
-            db.add_all(utilisateurs)
-            db.commit()
+        # Vérifier si les tables sont vides
+        if not db.query(models.Utilisateur).first() and not db.query(models.Abonnement).first():
+            # Exécuter le script SQL pour insérer les données initiales
+            with engine.connect() as connection:
+                with open(os.path.join(os.path.dirname(__file__), 'seed.sql'), 'r') as file:
+                    sql_script = file.read()
+                connection.execute(text(sql_script))
+                print("Seed data inserted successfully.")
     except Exception as e:
         print(f"Error seeding data: {e}")
     finally:
